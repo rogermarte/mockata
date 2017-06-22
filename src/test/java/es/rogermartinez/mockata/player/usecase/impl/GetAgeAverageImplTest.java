@@ -4,7 +4,6 @@ import es.rogermartinez.mockata.player.Player;
 import es.rogermartinez.mockata.player.exception.InconsistencePlayerAgeException;
 import es.rogermartinez.mockata.player.exception.NoPlayerFoundException;
 import es.rogermartinez.mockata.player.repository.PlayerRepository;
-import es.rogermartinez.mockata.player.usecase.GetAgeAverage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -12,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
