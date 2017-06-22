@@ -6,7 +6,9 @@ import es.rogermartinez.mockata.player.repository.impl.PlayerInMemory;
 import es.rogermartinez.mockata.player.usecase.GetAgeAverage;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.mock;
 
 public class GetAgeAverageImplTest {
 
@@ -25,7 +27,9 @@ public class GetAgeAverageImplTest {
     @Test(expected = NoPlayerFoundException.class)
     public void should_throws_no_player_exception_when_repository_return_null() throws Exception {
         // Given
-        GetAgeAverage getAgeAverage = new GetAgeAverageImpl(playerRepository);
+        PlayerRepository playerRepositoryMock = mock(PlayerRepository.class);
+        given(playerRepositoryMock.obtainAllPlayers()).willReturn(null);
+        GetAgeAverage getAgeAverage = new GetAgeAverageImpl(playerRepositoryMock);
         // When
         getAgeAverage.calculate();
         // Then
