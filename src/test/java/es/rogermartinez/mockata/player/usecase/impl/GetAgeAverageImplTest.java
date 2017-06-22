@@ -58,6 +58,20 @@ public class GetAgeAverageImplTest {
         assertTrue(false);
     }
 
+    @Test(expected = InconsistencePlayerAgeException.class)
+    public void should_throws_inconsistence_player_exception_when_age_is_greater_than_99() throws Exception {
+        // Given
+        given(playerRepository.obtainAllPlayers()).willReturn(inconsistenceOldPlayer());
+        // When
+        getAgeAverage.calculate();
+        // Then
+        assertTrue(false);
+    }
+
+    private List<Player> inconsistenceOldPlayer() {
+        return Collections.singletonList(new Player(100));
+    }
+
     private List<Player> inconsistencePlayer() {
         return Collections.singletonList(new Player(-1));
     }
