@@ -5,4 +5,6 @@ import es.rogermartinez.mockata.player.exception.NoPlayerFoundException;
 
 public interface GetAgeAverage {
     int calculate() throws InconsistencePlayerAgeException, NoPlayerFoundException;
+
+    int calculate(boolean rigthHanded) throws InconsistencePlayerAgeException, NoPlayerFoundException;
 }

@@ -4,7 +4,6 @@ import es.rogermartinez.mockata.player.Player;
 import es.rogermartinez.mockata.player.exception.InconsistencePlayerAgeException;
 import es.rogermartinez.mockata.player.exception.NoPlayerFoundException;
 import es.rogermartinez.mockata.player.repository.PlayerRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,9 +15,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetAgeAverageImplTest {
@@ -77,6 +77,32 @@ public class GetAgeAverageImplTest {
         int age = getAgeAverage.calculate();
         // Then
         assertThat(age).isEqualTo(36);
+    }
+
+    @Test
+    public void should_return_average_when_players_are_left_handed() throws Exception {
+        // Given
+        given(playerRepository.obtainLeftHandedPlayers()).willReturn(playersWith34And38());
+        given(playerRepository.obtainRightHandedPlayers()).willReturn(inconsistenceOldPlayer());
+        // When
+        int average = getAgeAverage.calculate(false);
+        // Then
+        assertThat(average).isEqualTo(36);
+        verify(playerRepository, times(1)).obtainLeftHandedPlayers();
+        verify(playerRepository, never()).obtainRightHandedPlayers();
+    }
+
+    @Test
+    public void should_return_average_when_players_are_rigth_handed() throws Exception {
+        // Given
+        given(playerRepository.obtainRightHandedPlayers()).willReturn(playersWith34And38());
+        given(playerRepository.obtainLeftHandedPlayers()).willReturn(inconsistenceOldPlayer());
+        // When
+        int average = getAgeAverage.calculate(true);
+        // Then
+        assertThat(average).isEqualTo(36);
+        verify(playerRepository, times(1)).obtainRightHandedPlayers();
+        verify(playerRepository, never()).obtainLeftHandedPlayers();
     }
 
     private List<Player> playersWith34And38() {

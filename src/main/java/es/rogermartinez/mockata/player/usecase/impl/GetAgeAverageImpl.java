@@ -24,6 +24,18 @@ public class GetAgeAverageImpl implements GetAgeAverage {
         return average(players);
     }
 
+    @Override
+    public int calculate(boolean rigthHanded) throws InconsistencePlayerAgeException, NoPlayerFoundException {
+        List<Player> players;
+        if (rigthHanded) {
+            players = playerRepository.obtainRightHandedPlayers();
+        } else {
+            players = playerRepository.obtainLeftHandedPlayers();
+        }
+        validatePlayers(players);
+        return average(players);
+    }
+
     private int average(List<Player> players) throws InconsistencePlayerAgeException {
         return getTotalAge(players) / players.size();
     }
