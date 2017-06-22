@@ -1,0 +1,2 @@
+# mockata
+Kata about Mockito
