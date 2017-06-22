@@ -4,6 +4,7 @@ import es.rogermartinez.mockata.player.Player;
 import es.rogermartinez.mockata.player.exception.InconsistencePlayerAgeException;
 import es.rogermartinez.mockata.player.exception.NoPlayerFoundException;
 import es.rogermartinez.mockata.player.repository.PlayerRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,9 +12,11 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 
@@ -64,6 +67,21 @@ public class GetAgeAverageImplTest {
         getAgeAverage.calculate();
         // Then
         assertTrue(false);
+    }
+
+    @Test
+    public void should_return_36_when_two_players_exists_with_34_and_38_age() throws Exception {
+        // Given
+        given(playerRepository.obtainAllPlayers()).willReturn(playersWith34And38());
+        // When
+        int age = getAgeAverage.calculate();
+        // Then
+        assertThat(age).isEqualTo(36);
+    }
+
+    private List<Player> playersWith34And38() {
+        return Arrays.asList(new Player(34),
+                new Player(38));
     }
 
     private List<Player> inconsistenceOldPlayer() {
