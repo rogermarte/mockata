@@ -22,7 +22,7 @@ public class GetAgeAverageImpl implements GetAgeAverage {
         List<Player> players = playerRepository.obtainAllPlayers();
         validatePlayers(players);
         for (Player player : players) {
-            if (player.getAge() < 0) {
+            if (player.getAge() < 0 || player.getAge() > 99) {
                 throw new InconsistencePlayerAgeException();
             }
         }
