@@ -21,12 +21,20 @@ public class GetAgeAverageImpl implements GetAgeAverage {
     public int calculate() throws InconsistencePlayerAgeException, NoPlayerFoundException {
         List<Player> players = playerRepository.obtainAllPlayers();
         validatePlayers(players);
+        return average(players);
+    }
+
+    private int average(List<Player> players) throws InconsistencePlayerAgeException {
+        return getTotalAge(players) / players.size();
+    }
+
+    private int getTotalAge(List<Player> players) throws InconsistencePlayerAgeException {
         int age = 0;
         for (Player player : players) {
             validateAge(player);
             age += player.getAge();
         }
-        return age / players.size();
+        return age;
     }
 
     private void validateAge(Player player) throws InconsistencePlayerAgeException {
