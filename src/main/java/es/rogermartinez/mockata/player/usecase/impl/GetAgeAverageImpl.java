@@ -15,6 +15,9 @@ public class GetAgeAverageImpl implements GetAgeAverage {
 
     @Override
     public int calculate() throws InconsistencePlayerAgeException, NoPlayerFoundException {
+        if (playerRepository == null) {
+            throw new NoPlayerFoundException();
+        }
         return 0;
     }
 }
