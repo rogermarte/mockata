@@ -1,6 +1,7 @@
 package es.rogermartinez.mockata.player.usecase.impl;
 
 import es.rogermartinez.mockata.player.Player;
+import es.rogermartinez.mockata.player.exception.InconsistencePlayerAgeException;
 import es.rogermartinez.mockata.player.exception.NoPlayerFoundException;
 import es.rogermartinez.mockata.player.repository.PlayerRepository;
 import es.rogermartinez.mockata.player.usecase.GetAgeAverage;
@@ -11,6 +12,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
@@ -42,5 +46,19 @@ public class GetAgeAverageImplTest {
         getAgeAverage.calculate();
         // Then
         assertTrue(false);
+    }
+
+    @Test(expected = InconsistencePlayerAgeException.class)
+    public void should_throws_inconsistence_player_exception_when_age_is_lesser_than_0() throws Exception {
+        // Given
+        given(playerRepository.obtainAllPlayers()).willReturn(inconsistencePlayer());
+        // When
+        getAgeAverage.calculate();
+        // Then
+        assertTrue(false);
+    }
+
+    private List<Player> inconsistencePlayer() {
+        return Collections.singletonList(new Player(-1));
     }
 }
