@@ -21,4 +21,14 @@ public class GetAgeAverageImplTest {
         // Then
         assertTrue(false);
     }
+
+    @Test(expected = NoPlayerFoundException.class)
+    public void should_throws_no_player_exception_when_repository_return_null() throws Exception {
+        // Given
+        GetAgeAverage getAgeAverage = new GetAgeAverageImpl(playerRepository);
+        // When
+        getAgeAverage.calculate();
+        // Then
+        assertTrue(false);
+    }
 }
